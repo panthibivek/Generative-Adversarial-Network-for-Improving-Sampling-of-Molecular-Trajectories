@@ -10,6 +10,7 @@ class GenAdvNetwork(tf.keras.Model):
     def __init__(self, latent_dim, batch_size) -> None:
         # initialize keras Model class
         super().__init__()
+        self.count = 0
         self.latent_dim = latent_dim
         self.batch_size = batch_size
         self.generator = self.generate_generator()
@@ -18,7 +19,7 @@ class GenAdvNetwork(tf.keras.Model):
         self.discriminator_loss = tf.keras.metrics.Mean(name="discriminator_loss")
     
     def generate_generator(self) -> tf.keras.Sequential:
-        filters = [13, 64, 128]
+        filters = [13, 512, 1024]
         model = tf.keras.Sequential(name="generator")
         model.add(tf.keras.layers.Dense(filters[0], input_dim=self.latent_dim+1))
         model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
@@ -90,6 +91,16 @@ class GenAdvNetwork(tf.keras.Model):
         generated_trajectories = self.generate_trajectories(energies)
         generated_trajectories = tf.cast(generated_trajectories, dtype=tf.float64)
         combined_trajectories = tf.concat([generated_trajectories, input_X], axis=0)
+
+
+
+        # temp = tf.reshape(generated_trajectories, (-1, 78)) 
+        # self.count += 1
+        # file_name = "/home/panthibivek/thesis/GAN_pkg/demo_storage/" + str(self.count) + "_file.txt"
+        # np.savetxt(file_name, temp.numpy())
+
+
+
         # labels for differentiating real vs fake trajectories
         combined_energies_label = tf.concat([tf.zeros((size_of_data_, 1)), tf.ones((size_of_data_, 1))], axis=0)
         # Training the discriminator.
