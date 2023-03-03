@@ -84,7 +84,7 @@ class GenAdvNetwork(tf.keras.Model):
     def train_step(self, data):
         input_X, energies = data
         energies = tf.cast(energies, dtype=tf.float64)
-        size_of_data_ = int(len(energies)) # note that this value may change in each batch
+        size_of_data_ = int(len(energies)) # note that this value may change in the last batch
         input_X = tf.cast(input_X, dtype=tf.float64)
 
         # generating trajectories
