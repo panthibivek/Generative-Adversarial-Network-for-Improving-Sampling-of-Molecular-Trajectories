@@ -5,11 +5,11 @@
 import numpy as np
 import tensorflow as tf
 
-def random_generator(shape_, true_y_values):
+def random_generator(shape_):
     random_gaussian_vectors = tf.random.normal(shape=shape_)
     random_gaussian_vectors = tf.cast(random_gaussian_vectors, dtype=tf.float64)
-    combine_vector = tf.concat([random_gaussian_vectors, true_y_values], axis=1)
-    return tf.cast(combine_vector, dtype=tf.float64)
+    # combine_vector = tf.concat([random_gaussian_vectors], axis=1)
+    return tf.cast(random_gaussian_vectors, dtype=tf.float64)
 
 def unison_shuffle(arr1 : np.array, arr2 : np.array):
     assert len(arr1) == len(arr2)

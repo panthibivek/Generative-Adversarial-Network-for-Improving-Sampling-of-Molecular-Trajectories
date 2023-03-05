@@ -19,9 +19,9 @@ class GenAdvNetwork(tf.keras.Model):
         self.discriminator_loss = tf.keras.metrics.Mean(name="discriminator_loss")
     
     def generate_generator(self) -> tf.keras.Sequential:
-        filters = [13, 512, 1024]
+        filters = [13, 128, 264]
         model = tf.keras.Sequential(name="generator")
-        model.add(tf.keras.layers.Dense(filters[0], input_dim=self.latent_dim+1))
+        model.add(tf.keras.layers.Dense(filters[0], input_dim=self.latent_dim))
         model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
         model.add(tf.keras.layers.Reshape((filters[0], 1)))
 
@@ -60,8 +60,8 @@ class GenAdvNetwork(tf.keras.Model):
         self.d_optimizer = discriminator_opt
         self.loss_fn = loss_func
 
-    def generate_trajectories(self, energies):
-        return self.generator(random_generator((int(len(energies)), self.latent_dim), energies))
+    def generate_trajectories(self, size_of_data):
+        return self.generator(random_generator((size_of_data, self.latent_dim)))
     
     def train_disc_gen(self, trajectories, energy_labels, tag):
         with tf.GradientTape() as tape:
@@ -83,12 +83,12 @@ class GenAdvNetwork(tf.keras.Model):
 
     def train_step(self, data):
         input_X, energies = data
-        energies = tf.cast(energies, dtype=tf.float64)
-        size_of_data_ = int(len(energies)) # note that this value may change in the last batch
+        # energies = tf.cast(energies, dtype=tf.float64)
+        size_of_data_ = int(len(input_X)) # note that this value may change in the last batch
         input_X = tf.cast(input_X, dtype=tf.float64)
 
         # generating trajectories
-        generated_trajectories = self.generate_trajectories(energies)
+        generated_trajectories = self.generate_trajectories(size_of_data_)
         generated_trajectories = tf.cast(generated_trajectories, dtype=tf.float64)
         combined_trajectories = tf.concat([generated_trajectories, input_X], axis=0)
 
@@ -102,13 +102,13 @@ class GenAdvNetwork(tf.keras.Model):
 
 
         # labels for differentiating real vs fake trajectories
-        combined_energies_label = tf.concat([tf.zeros((size_of_data_, 1)), tf.ones((size_of_data_, 1))], axis=0)
+        combined_label = tf.concat([tf.zeros((size_of_data_, 1)), tf.ones((size_of_data_, 1))], axis=0)
         # Training the discriminator.
-        d_loss = self.train_disc_gen(trajectories=combined_trajectories, energy_labels=combined_energies_label, tag="discriminator")
+        d_loss = self.train_disc_gen(trajectories=combined_trajectories, energy_labels=combined_label, tag="discriminator")
 
         # Generating random labels and concinate with real energies
-        random_vector_labels = random_generator((size_of_data_, self.latent_dim), energies)
-        misleading_labels = tf.ones((size_of_data_, 1))
+        random_vector_labels = random_generator((size_of_data_, self.latent_dim))
+        misleading_labels = tf.zeros((size_of_data_, 1))
         # Training the generator
         g_loss = self.train_disc_gen(trajectories=random_vector_labels, energy_labels=misleading_labels, tag="generator")
         # Monitoring loss
