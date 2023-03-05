@@ -5,6 +5,12 @@
 import numpy as np
 import tensorflow as tf
 
+def random_shuffle(x_tensor, y_tensor):
+    idx = tf.range(start=0, limit=tf.shape(x_tensor)[0], dtype=tf.int32)
+    shuffled_idx = tf.random.shuffle(idx)
+    x_tensor, y_tensor = tf.gather(x_tensor, shuffled_idx), tf.gather(y_tensor, shuffled_idx)
+    return x_tensor, y_tensor
+
 def random_generator(shape_):
     random_gaussian_vectors = tf.random.normal(shape=shape_)
     random_gaussian_vectors = tf.cast(random_gaussian_vectors, dtype=tf.float64)
