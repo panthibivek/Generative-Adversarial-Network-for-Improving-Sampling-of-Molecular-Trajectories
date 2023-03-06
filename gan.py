@@ -1,4 +1,7 @@
 
+""" @author : Bivek Panthi
+"""
+
 import tensorflow as tf
 from utils import random_generator, random_shuffle
 import numpy as np

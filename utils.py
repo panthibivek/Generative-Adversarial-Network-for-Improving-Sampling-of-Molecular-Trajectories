@@ -1,5 +1,5 @@
 
-""" @author : Bivek
+""" @author : Bivek Panthi
 """
 
 import numpy as np
