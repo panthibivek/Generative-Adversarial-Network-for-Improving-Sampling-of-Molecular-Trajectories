@@ -20,19 +20,19 @@ class GenAdvNetwork(tf.keras.Model):
         filters = [13, 128, 264]
         model = tf.keras.Sequential(name="generator")
         model.add(tf.keras.layers.Dense(filters[0], input_dim=self.latent_dim))
-        model.add(tf.keras.layers.LeakyReLU(alpha=0))
+        model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
         model.add(tf.keras.layers.Reshape((filters[0], 1)))
 
         model.add(tf.keras.layers.Conv1DTranspose(filters[1], kernel_size=4, strides=3, padding='same'))
-        model.add(tf.keras.layers.LeakyReLU(alpha=0))
+        model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
         model.add(tf.keras.layers.BatchNormalization())
 
         for filter in filters[2:]:
             model.add(tf.keras.layers.Conv1DTranspose(filter, kernel_size=4, strides=2, padding='same'))
-            model.add(tf.keras.layers.LeakyReLU(alpha=0))
+            model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
             model.add(tf.keras.layers.BatchNormalization())
 
-        model.add(tf.keras.layers.Conv1D(1, kernel_size=4, padding='same', activation='tanh'))
+        model.add(tf.keras.layers.Conv1D(1, kernel_size=4, padding='same', activation='softplus'))
         model.summary()
         return model
 
@@ -98,7 +98,7 @@ class GenAdvNetwork(tf.keras.Model):
         # Shuffling the inputs randomly
         combined_trajectories, combined_label = random_shuffle(combined_trajectories, combined_label)
 
-        # Training the discriminator.
+        # Training the discriminator
         d_loss = self.train_disc_gen(trajectories=combined_trajectories, Y_=combined_label, tag="discriminator")
 
         # Generating random labels and concinate with real energies
