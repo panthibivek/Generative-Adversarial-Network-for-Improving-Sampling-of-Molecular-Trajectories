@@ -50,7 +50,7 @@ if __name__=="__main__":
         last_train_seq_number = 0
     current_train_dir = train_dir + "exp" + str(last_train_seq_number+1)
     os.mkdir(current_train_dir)
-    GAN_model.save_weights(current_train_dir + "/weights.h5")
+    GAN_model.save_weights(current_train_dir + "/weights/")
 
     plt.plot(history.history['d_loss'])
     plt.title('Discriminator Loss')

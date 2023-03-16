@@ -4,9 +4,7 @@
 
 import tensorflow as tf
 from utils import random_generator, random_shuffle
-import numpy as np
-from formatData import loadData
-from sklearn.model_selection import train_test_split
+import os
 
 class GenAdvNetwork(tf.keras.Model):
     def __init__(self, latent_dim, batch_size) -> None:
@@ -86,6 +84,7 @@ class GenAdvNetwork(tf.keras.Model):
 
     def train_step(self, data):
         input_X, energies = data
+
         # energies = tf.cast(energies, dtype=tf.float64)
         size_of_data_ = int(len(input_X)) # note that this value may change in the last batch
         input_X = tf.cast(input_X, dtype=tf.float64)
@@ -116,6 +115,13 @@ class GenAdvNetwork(tf.keras.Model):
             "g_loss": self.generator_loss.result(),
             "d_loss": self.discriminator_loss.result(),
         }
+    
+def load_weight(weight_path : str):
+    if os.path.isfile(weight_path):
+        pass
+    else:
+        raise ValueError(f"file {weight_path} does not exist")
+    return tf.keras.models.load_model(weight_path, custom_objects={"GenAdvNetwork": GenAdvNetwork})
 
 if __name__=="__main__":
     pass
