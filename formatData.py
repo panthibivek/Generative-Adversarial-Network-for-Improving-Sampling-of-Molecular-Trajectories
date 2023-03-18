@@ -56,12 +56,13 @@ def loadData(max_size : int, filename : str):
     #Only abs path accepted
     obj = GenerateCsv(max_size, filename)
     ###################################
-    molRep2D = []
     current_dir = os.path.abspath(os.path.dirname(__file__))
-    with open(current_dir + "/data/lower_coulomb_mtx_array.txt", 'r') as f:
-        for line in f.readlines():
-            molRep2D.append(line.split(','))
-    molRep2D = np.array(molRep2D)
+    # molRep2D = []
+    # with open(current_dir + "/data/lower_coulomb_mtx_array.txt", 'r') as f:
+    #     for line in f.readlines():
+    #         molRep2D.append(line.split(','))
+    # molRep2D = np.array(molRep2D)
+    molRep2D = np.loadtxt(current_dir + "/data/lower_coulomb_mtx_array.txt", delimiter=',', dtype=float)
     print("input data size:", molRep2D.shape)
     ###################################
     energies = []
