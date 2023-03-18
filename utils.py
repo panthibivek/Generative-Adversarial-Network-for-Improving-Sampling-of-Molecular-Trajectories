@@ -36,6 +36,6 @@ def buf_count_newlines(filename : str):
 def ExtractLines(filename : str, n : int, line_length : int = 14):
     with open(filename, 'r') as fp:
         x = fp.readlines()[n*line_length:(n+1)*line_length]
-    output_filename = 'molecule{}.xyz'.format(n)
+    output_filename = 'molecule{:05d}.xyz'.format(n)
     with open(output_filename, "w") as text_file:
         text_file.writelines(x)
