@@ -1,7 +1,8 @@
 
+import tensorflow as tf
 import keras
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, BatchNormalization, Dropout
 import os
 import numpy as np
 from formatData import loadData
@@ -12,16 +13,19 @@ input_dim = 78
 output_dim = 12 * 3
 
 def getModel():
-    # Define the MLP architecture
     model = Sequential()
-    model.add(Dense(units=1024, activation='linear', input_dim=input_dim))
-    model.add(Dense(units=512, activation='linear'))
-    model.add(Dense(units=512, activation='linear'))
-    model.add(Dense(units=64, activation='linear'))
-    model.add(Dense(units=64, activation='linear'))
+    model.add(Dense(units=1024, activation='relu', input_dim=input_dim))
+    model.add(BatchNormalization())
+    model.add(Dense(units=512, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(Dropout(0.2))
+    model.add(Dense(units=512, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(Dropout(0.2))
+    model.add(Dense(units=256, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(Dense(units=128, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(Dense(units=64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
     model.add(Dense(units=output_dim, activation='linear'))
-    model.compile(loss='mse', optimizer='adam')
-    model.summary()
+    optimizer = tf.keras.optimizers.Adam(lr=0.001)
+    model.compile(loss='mse', optimizer=optimizer)
     return model
 
 def extractDataFromXyz(filename : str):
