@@ -8,11 +8,6 @@ import numpy as np
 import os
 import json
 
-def sqDistFromOrigin(arr):
-    return sum(x**2 for x in arr)
-
-# myListOfVectors.sort(key=sqDistFromOrigin)
-
 class Generatexyz:
     def __init__(self, total_samples_to_generate : int, batch_size : int, number_of_atoms : int):
         self.total_samples_to_generate = total_samples_to_generate
@@ -21,7 +16,7 @@ class Generatexyz:
 
         new_dir = pathlib.Path(os.path.abspath(os.path.dirname(__file__)) + "/data/exp")
         new_dir.mkdir(parents=True, exist_ok=True)
-        self.traj_dirname = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/totalSortedTraj.txt"
+        self.traj_dirname = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/totalTraj.txt"
         self.coulomb1D_dirname = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/totalCoulomb1D.txt"
         self.cache_memory = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/cacheData.json"
         self.temp_xyz = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/tempXyz.xyz"
@@ -59,12 +54,12 @@ class Generatexyz:
             temp_generated_coulomb1D.append(list(self.generate_coulomb_matrix()))
         temp_generated_samples = np.array(temp_generated_samples)
         trajfile = open(self.traj_dirname, "a")
-        np.savetxt(trajfile, temp_generated_samples)
+        np.savetxt(trajfile, temp_generated_samples, delimiter=',')
         trajfile.close()
 
         temp_generated_coulomb1D = np.array(temp_generated_coulomb1D)
         coulomb1Dfile = open(self.coulomb1D_dirname, "a")
-        np.savetxt(coulomb1Dfile, temp_generated_coulomb1D)
+        np.savetxt(coulomb1Dfile, temp_generated_coulomb1D, delimiter=',')
         coulomb1Dfile.close()
 
     def generate_coulomb_matrix(self):
@@ -89,3 +84,22 @@ class Generatexyz:
 
     def generate_gaussian_noise(self, size_n):
         return np.random.normal(0, 0.005, size_n)
+
+    def sorting_by_coulomb_matrix(self):
+        all_coulomb1D = np.loadtxt(self.coulomb1D_dirname, delimiter=',')
+        all_traj_xyz = np.loadtxt(self.traj_dirname, delimiter=',')
+        idx = list(range(len(all_coulomb1D)))
+        idx.sort(key=lambda i: sqDistFromOrigin(all_coulomb1D[i]))
+        sorted_all_coulomb1D = np.array(list(map(all_coulomb1D.__getitem__, idx)))
+        sorted_all_traj_xyz = np.array(list(map(all_traj_xyz.__getitem__, idx)))
+
+        sorted_traj_dirname = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/totalSortedTraj.txt"
+        sorted_traj_file = open(sorted_traj_dirname, "w")
+        np.savetxt(sorted_traj_file, sorted_all_traj_xyz, delimiter=',')
+
+        sorted_coulomb1D_dirname = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/totalSortedCoulomb1D.txt"
+        sorted_coulomb1D_file = open(sorted_coulomb1D_dirname, "w")
+        np.savetxt(sorted_coulomb1D_file, sorted_all_coulomb1D, delimiter=',')
+
+def sqDistFromOrigin(arr):
+    return sum(x**2 for x in arr)
