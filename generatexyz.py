@@ -83,7 +83,7 @@ class Generatexyz:
         trajfile.close()
 
     def generate_gaussian_noise(self, size_n):
-        return np.random.normal(0, 0.005, size_n)
+        return np.random.normal(0, 0.05, size_n)
 
     def sorting_by_coulomb_matrix(self):
         all_coulomb1D = np.loadtxt(self.coulomb1D_dirname, delimiter=',')
@@ -93,13 +93,19 @@ class Generatexyz:
         sorted_all_coulomb1D = np.array(list(map(all_coulomb1D.__getitem__, idx)))
         sorted_all_traj_xyz = np.array(list(map(all_traj_xyz.__getitem__, idx)))
 
-        sorted_traj_dirname = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/totalSortedTraj.txt"
-        sorted_traj_file = open(sorted_traj_dirname, "w")
-        np.savetxt(sorted_traj_file, sorted_all_traj_xyz, delimiter=',')
+        self.sorted_traj_dirname = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/totalSortedTraj.txt"
+        # sorted_traj_file = open(self.sorted_traj_dirname, "w")
+        # np.savetxt(sorted_traj_file, sorted_all_traj_xyz, delimiter=',')
+        with open(self.sorted_traj_dirname, "w") as f:
+            for row in sorted_all_traj_xyz:
+                f.write(','.join(str(x) for x in row) + '\n')
 
-        sorted_coulomb1D_dirname = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/totalSortedCoulomb1D.txt"
-        sorted_coulomb1D_file = open(sorted_coulomb1D_dirname, "w")
-        np.savetxt(sorted_coulomb1D_file, sorted_all_coulomb1D, delimiter=',')
+        self.sorted_coulomb1D_dirname = os.path.abspath(os.path.dirname(__file__)) + "/data/exp/totalSortedCoulomb1D.txt"
+        # sorted_coulomb1D_file = open(self.sorted_coulomb1D_dirname, "w")
+        # np.savetxt(sorted_coulomb1D_file, sorted_all_coulomb1D, delimiter=',')
+        with open(self.sorted_coulomb1D_dirname, "w") as f:
+            for row in sorted_all_coulomb1D:
+                f.write(','.join(str(x) for x in row) + '\n')
 
 def sqDistFromOrigin(arr):
     return sum(x**2 for x in arr)

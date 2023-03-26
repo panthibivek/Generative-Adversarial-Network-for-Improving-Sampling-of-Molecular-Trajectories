@@ -14,19 +14,39 @@ output_dim = 12 * 3
 
 def getModel():
     model = Sequential()
-    model.add(Dense(units=1024, activation='relu', input_dim=input_dim))
+    model.add(Dense(units=1024, activation='linear', input_dim=input_dim))
     model.add(BatchNormalization())
-    model.add(Dense(units=512, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(Dense(units=512, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(BatchNormalization())
     model.add(Dropout(0.2))
-    model.add(Dense(units=512, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(Dense(units=512, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(BatchNormalization())
     model.add(Dropout(0.2))
-    model.add(Dense(units=256, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
-    model.add(Dense(units=128, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
-    model.add(Dense(units=64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(Dense(units=256, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(BatchNormalization())
+    model.add(Dense(units=128, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(BatchNormalization())
+    model.add(Dense(units=64, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
+    model.add(BatchNormalization())
     model.add(Dense(units=output_dim, activation='linear'))
     optimizer = tf.keras.optimizers.Adam(lr=0.001)
     model.compile(loss='mse', optimizer=optimizer)
     return model
+
+def inputFormat(raw_input : np.array):
+    molRep2D_without_diagonal = []
+    diagonal_index = [1,3,6,10,15,21,28,36,45,55,66,78]
+    index = np.array([i-1 for i in range(1,78) if i not in diagonal_index])
+
+    for each_molRep2D in raw_input:
+        each_molRep2D_without_diagonal = each_molRep2D[index]
+        molRep2D_without_diagonal.append(each_molRep2D_without_diagonal)
+    molRep2D_without_diagonal = np.array(molRep2D_without_diagonal)
+
+    # charge of all atoms in benzene
+    atomic_charge = np.repeat(np.array([[6,6,6,6,6,6,1,1,1,1,1,1]]), len(raw_input), axis=0)
+    molRep2D_with_atomic_charge = np.concatenate((atomic_charge, molRep2D_without_diagonal), axis=1)
+    return molRep2D_with_atomic_charge
 
 def extractDataFromXyz(filename : str):
     with open(filename) as f:
@@ -73,13 +93,7 @@ if __name__=="__main__":
     X_train, X_test, y_train, y_test = train_test_split(molRep2D_with_atomic_charge, flatened_xyz,
                                    test_size=0.7)
     model = getModel()
-    model.fit(X_train, y_train, epochs=100)
+    model.fit(X_train, y_train, epochs=70)
 
-"""
-To the @author
-Problem           : Model is not learning even if increase the number of parameters.
-
-Possible Solution : Change the model architecture
-"""
 
 
