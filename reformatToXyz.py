@@ -7,8 +7,8 @@ import os.path
 import pathlib
 from utils import *
 from qml.representations import vector_to_matrix
-from ase import Atoms
-from ase.io import Trajectory
+from scipy.spatial import KDTree
+
 
 def format_xyz_samples(generated_sample : np.array, filename : str):
     """ Converts a flat xyz array to a xyz format and saves in the given file  
@@ -38,32 +38,27 @@ class MapCoulomb1dToXYZ:
             raise ValueError("Size of arrays mismatch!")
         self.xyz_filename = abs_path_xyz_dirname
         self.sizeof_sample_space = len(self.all_coulomb1D)
+        self.tree = KDTree(self.all_coulomb1D)
 
-    def generateXYZ(self, coulomb1D_arr : np.array, batch_size : int = 1000):
+    def generateXYZ(self, coulomb1D_arr : np.array):
+        temp_list_ = []
         for idx in range(len(coulomb1D_arr)):
-            generated_xyz = self.getxyz(self.findSpecificXyzIndex(coulomb1D_arr[idx], batch_size))
+            generated_xyz = self.getxyz(self.findSpecificXyzIndex(coulomb1D_arr[idx]))
+            temp_list_.append(generated_xyz)
             filename = self.xyz_filename + '/molecule{:06d}.xyz'.format(idx)
             format_xyz_samples(generated_xyz, filename)
+        return temp_list_
     
     def getxyz(self, index : int):
         return self.all_traj_xyz[index]
 
-    def findSpecificXyzIndex(self, each_coulomb1D_arr : np.array, batch_size : int):
-        initial_search_arr = np.array([abs(sqDistFromOrigin(each_coulomb1D_arr) - sqDistFromOrigin(self.all_coulomb1D[idx])) 
-                                       for idx in range(0, self.sizeof_sample_space, batch_size)])
-        closest_first_search_index = np.argmin(initial_search_arr) * batch_size
-        if closest_first_search_index <= batch_size:
-            search_index_lower_bound = 0
-            search_index_upper_bound = batch_size
-        else:
-            search_index_lower_bound = closest_first_search_index - batch_size
-            search_index_upper_bound = closest_first_search_index + batch_size
-
-        final_search_idx = np.array([idx2 for idx2 in range(search_index_lower_bound, search_index_upper_bound, 1)])   
-        final_search_arr = np.array([sqDistSum(each_coulomb1D_arr, self.all_coulomb1D[j]) for j in final_search_idx])
-        print(final_search_arr[np.argmin(final_search_arr)])
-        closest_final_index = final_search_idx[np.argmin(final_search_arr)]
-        return closest_final_index
+    def findSpecificXyzIndex(self, each_coulomb1D_arr : np.array):
+        dist, index = self.tree.query(each_coulomb1D_arr, k=1)
+        if index == 0:
+            print("Value below sample space's smallest value")
+        if index == (self.sizeof_sample_space-1):
+            print("Value above sample space's largest value")        
+        return index
         
         
 def sqDistFromOrigin(arr):

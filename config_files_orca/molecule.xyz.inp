@@ -1,0 +1,10 @@
+!ZINDO/S Conv Hueckel VeryTightSCF SlowConv DIIS NoMOPrint MiniPrint
+%rel SOCType 1 end
+
+%method FrozenCore fc_none end
+%cis NRoots 1
+     MaxDim 100
+     EWin -0.00001,0.00001
+end
+
+* xyzfile 0 1 /home/panthibivek/thesis/config_files_orca/MoleculesMappedFromSampleSpace/molecule000999.xyz
