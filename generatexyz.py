@@ -83,7 +83,7 @@ class Generatexyz:
         trajfile.close()
 
     def generate_gaussian_noise(self, size_n):
-        return np.random.normal(0, 0.05, size_n)
+        return np.random.normal(0, 0.005, size_n)
 
     def sorting_by_coulomb_matrix(self):
         all_coulomb1D = np.loadtxt(self.coulomb1D_dirname, delimiter=',')

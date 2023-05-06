@@ -45,7 +45,7 @@ class GenerateCsv:
         for path in sorted(os.listdir(self.XYZdirname)):
             path_in_str = os.path.abspath(str(path))
             mol = qml.Compound(xyz=path_in_str)
-            mol.generate_coulomb_matrix(size=self.max_size, sorting="row-norm")
+            mol.generate_coulomb_matrix(size=self.max_size, sorting="unsorted")
             lower_coulomb_mtx_array.append(list(mol.representation))
         os.chdir(self.current_dir)
         lower_coulomb_mtx_array = np.array(lower_coulomb_mtx_array)

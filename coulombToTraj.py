@@ -19,9 +19,6 @@ def getModel():
     model.add(Dense(units=512, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
     model.add(BatchNormalization())
     model.add(Dropout(0.2))
-    model.add(Dense(units=512, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
-    model.add(BatchNormalization())
-    model.add(Dropout(0.2))
     model.add(Dense(units=256, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
     model.add(BatchNormalization())
     model.add(Dense(units=128, activation='linear', kernel_regularizer=tf.keras.regularizers.l2(0.01)))
@@ -31,6 +28,7 @@ def getModel():
     model.add(Dense(units=output_dim, activation='linear'))
     optimizer = tf.keras.optimizers.Adam(lr=0.001)
     model.compile(loss='mse', optimizer=optimizer)
+    model.summary()
     return model
 
 def inputFormat(raw_input : np.array):

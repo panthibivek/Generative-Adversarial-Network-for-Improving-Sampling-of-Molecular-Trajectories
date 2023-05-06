@@ -38,7 +38,7 @@ class GenAdvNetwork(tf.keras.Model):
         return model
 
     def generate_discriminator(self) -> tf.keras.Model:
-        filters = [64, 128]
+        filters = [64, 264, 128]
         model = tf.keras.Sequential(name="discriminator")
         model.add(tf.keras.layers.Conv1D(filters[0], kernel_size=4, strides=3, input_shape=(78, 1), padding="same"))
         model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
@@ -70,14 +70,20 @@ class GenAdvNetwork(tf.keras.Model):
                 loss = self.disc_loss(Y_, predictions)
             elif tag == "generator":
                 fake_trajectories = self.generator(trajectories)
-                # predictions = self.discriminator(fake_trajectories)
+                # # predictions = self.discriminator(fake_trajectories)
                 loss = self.gen_loss(Y_, fake_trajectories)
+                # fake_trajectories = self.generator(trajectories)
+                # fake_trajectories = tf.cast(fake_trajectories, dtype=tf.float64)
+                # combined_samples = tf.concat([fake_trajectories, Y_], axis=0)
+                # predictions = self.discriminator(combined_samples)
+                # loss = self.gen_loss(predictions, tf.zeros((int(len(predictions)), 1)))
             else:
                 raise Exception("Incorrect tag! Should be either discriminator or generator")
         if tag == "discriminator":
             gradiants = tape.gradient(loss, self.discriminator.trainable_weights)
             self.d_optimizer.apply_gradients(zip(gradiants, self.discriminator.trainable_weights))
         else:
+            self.discriminator.trainable = False
             gradiants = tape.gradient(loss, self.generator.trainable_weights)
             self.g_optimizer.apply_gradients(zip(gradiants, self.generator.trainable_weights))
         return loss            
@@ -95,7 +101,7 @@ class GenAdvNetwork(tf.keras.Model):
         combined_trajectories = tf.concat([generated_trajectories, input_X], axis=0)
 
         # labels for differentiating real vs fake trajectories
-        combined_label = tf.concat([tf.zeros((size_of_data_, 1)), tf.ones((size_of_data_, 1))], axis=0)
+        combined_label = tf.concat([tf.ones((size_of_data_, 1)), tf.zeros((size_of_data_, 1))], axis=0)
 
         # Shuffling the inputs randomly
         combined_trajectories, combined_label = random_shuffle(combined_trajectories, combined_label)
@@ -105,7 +111,6 @@ class GenAdvNetwork(tf.keras.Model):
 
         # Generating random labels and concinate with real energies
         random_vector_labels = random_generator((size_of_data_, self.latent_dim))
-        # misleading_labels = tf.zeros((size_of_data_, 1))
         # Training the generator
         g_loss = self.train_disc_gen(trajectories=random_vector_labels, Y_=input_X, tag="generator")
         # Monitoring loss

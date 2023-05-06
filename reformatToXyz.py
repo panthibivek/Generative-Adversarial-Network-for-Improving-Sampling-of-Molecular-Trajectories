@@ -41,23 +41,23 @@ class MapCoulomb1dToXYZ:
         self.tree = KDTree(self.all_coulomb1D)
 
     def generateXYZ(self, coulomb1D_arr : np.array):
-        temp_list_ = []
+        list_return = []
         for idx in range(len(coulomb1D_arr)):
-            generated_xyz = self.getxyz(self.findSpecificXyzIndex(coulomb1D_arr[idx]))
-            temp_list_.append(generated_xyz)
-            filename = self.xyz_filename + '/molecule{:06d}.xyz'.format(idx)
-            format_xyz_samples(generated_xyz, filename)
-        return temp_list_
+            # generated_xyz = self.getxyz(self.findSpecificXyzIndex(coulomb1D_arr[idx]))
+            list_return += list(self.findSpecificXyzIndex(coulomb1D_arr[idx]))
+            # list_return.append(self.findSpecificXyzIndex(coulomb1D_arr[idx]))
+
+        for i in range(len(list_return)):
+            filename = self.xyz_filename + '/molecule{:06d}.xyz'.format(i)
+            format_xyz_samples(self.all_traj_xyz[list_return[i]], filename)
+        return list_return
     
     def getxyz(self, index : int):
         return self.all_traj_xyz[index]
 
     def findSpecificXyzIndex(self, each_coulomb1D_arr : np.array):
-        dist, index = self.tree.query(each_coulomb1D_arr, k=1)
-        if index == 0:
-            print("Value below sample space's smallest value")
-        if index == (self.sizeof_sample_space-1):
-            print("Value above sample space's largest value")        
+        dist, index = self.tree.query(each_coulomb1D_arr, k=100)
+        # print(dist, index)      
         return index
         
         
