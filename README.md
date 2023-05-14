@@ -73,10 +73,11 @@ pip install -r requirements.txt
 ### GenAdvNetwork:
 &emsp; This class is used to compile and train the GAN model.<br>
 <br>
-&emsp; Methods:<br>
+&emsp; **Methods**:<br>
+<br>
 &emsp; &emsp; **__init__**:<br>
 &emsp; &emsp; &emsp; &emsp; Class constructor<br>
-&emsp; &emsp; **generate_generator:<br>
+&emsp; &emsp; **generate_generator**:<br>
 &emsp; &emsp; &emsp; &emsp; Function that defines the architecture of the generator<br>
 &emsp; &emsp; **generate_discriminator**:<br>
 &emsp; &emsp; &emsp; &emsp; Function that defines the architecture of the discriminator<br>
