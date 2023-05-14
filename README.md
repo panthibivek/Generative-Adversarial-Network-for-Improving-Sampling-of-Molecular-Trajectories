@@ -68,9 +68,9 @@ pip install -r requirements.txt
 ├── README.md<br>
 ├── requirements.txt<br>
 
-List of class used in the repository:
+## List of class used in the repository:
 
-## GenAdvNetwork:
+### GenAdvNetwork:
     This class is used to compile and train the GAN model.
 
     Methods:
