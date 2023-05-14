@@ -75,7 +75,7 @@ pip install -r requirements.txt
 <br>
 &emsp; **Methods**:<br>
 <br>
-&emsp; &emsp; **__init__**:<br>
+&emsp; &emsp; **\_\_init\_\_**:<br>
 &emsp; &emsp; &emsp; &emsp; Class constructor<br>
 &emsp; &emsp; **generate_generator**:<br>
 &emsp; &emsp; &emsp; &emsp; Function that defines the architecture of the generator<br>
