@@ -3,6 +3,11 @@
 *.png
 
 __pycache__
-data/
+data/AllMolecules/*
+data/exp/*
+data/MoleculesMappedFromSampleSpace/*
+data/newMappedMolecules/*
+data/Traj1/*
+data/Traj2/*
 demo_storage/
 config_files_orca/MoleculesMappedFromSampleSpace
