@@ -74,17 +74,17 @@ pip install -r requirements.txt
 &emsp; This class is used to compile and train the GAN model.<br>
 <br>
 &emsp; Methods:<br>
-&emsp; &emsp; __init__:<br>
-&emsp; &emsp; &emsp; Class constructor<br>
-&emsp; &emsp; generate_generator:<br>
-&emsp; &emsp; &emsp; Function that defines the architecture of the generator<br>
-&emsp; &emsp; generate_discriminator:<br>
-&emsp; &emsp; &emsp; Function that defines the architecture of the discriminator<br>
-&emsp; &emsp; compile:<br>
-&emsp; &emsp; &emsp; Function that initializes the loss functions used for the generator and the discriminator<br>
-&emsp; &emsp; generate_trajectories:<br>
-&emsp; &emsp; &emsp; Function that uses the generator to generate new trajectories<br>
-&emsp; &emsp; train_disc_gen:<br>
-&emsp; &emsp; &emsp; Function that trains the generator and the discriminator<br>
-&emsp; &emsp; train_step:<br>
-&emsp; &emsp; &emsp; Function that trains the GAN for each batch of data<br>
+&emsp; &emsp; **__init__**:<br>
+&emsp; &emsp; &emsp; &emsp; Class constructor<br>
+&emsp; &emsp; **generate_generator:<br>
+&emsp; &emsp; &emsp; &emsp; Function that defines the architecture of the generator<br>
+&emsp; &emsp; **generate_discriminator**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that defines the architecture of the discriminator<br>
+&emsp; &emsp; **compile**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that initializes the loss functions used for the generator and the discriminator<br>
+&emsp; &emsp; **generate_trajectories**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that uses the generator to generate new trajectories<br>
+&emsp; &emsp; **train_disc_gen**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that trains the generator and the discriminator<br>
+&emsp; &emsp; **train_step**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that trains the GAN for each batch of data<br>
