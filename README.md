@@ -71,20 +71,20 @@ pip install -r requirements.txt
 List of class used in the repository:
 
 ## GenAdvNetwork:
-    \t This class is used to compile and train the GAN model.
+    This class is used to compile and train the GAN model.
 
-    \t ### Methods:
-        #### __init__:
-            \t \t Class constructor
-        #### generate_generator:
-            \t \t Function that defines the architecture of the generator
-        #### generate_discriminator:
-            \t \t Function that defines the architecture of the discriminator
-        #### compile:
-            \t \t Function that initializes the loss functions used for the generator and the discriminator
-        #### generate_trajectories:
-            \t \t Function that uses the generator to generate new trajectories
-        #### train_disc_gen:        
-            \t \t Function that trains the generator and the discriminator
-        #### train_step:
-            \t \t Function that trains the GAN for each batch of data
+    Methods:
+        __init__:
+            Class constructor
+        generate_generator:
+            Function that defines the architecture of the generator
+        generate_discriminator:
+            Function that defines the architecture of the discriminator
+        compile:
+            Function that initializes the loss functions used for the generator and the discriminator
+        generate_trajectories:
+            Function that uses the generator to generate new trajectories
+        train_disc_gen:        
+            Function that trains the generator and the discriminator
+        train_step:
+            Function that trains the GAN for each batch of data
