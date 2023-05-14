@@ -26,47 +26,47 @@ pip install -r requirements.txt
 ```
 
 ## The repository tree structure
-.
-├── formatData.py
-├── gan.py
-├── generatexyz.py
-├── reformatToXyz.py
-├── coulombToTraj.py
-├── train.py
-└── utils.py
-├── benchmark.ipynb
-├── energy_benchmarking.ipynb
-├── genAdvTrain.ipynb
-├── generateSamples.ipynb
-├── optimzation.ipynb
-├── regression.ipynb
-├── runs
-│   ├── ModelForCoulombToXyz
-│   └── train
-├── config_files_orca
-│   ├── calculated_energies.txt
-│   ├── extract_excited_energy.sh
-│   ├── gan_lower_coulomb_mtx_array.txt
-│   ├── molecule.log
-│   ├── molecule.xyz.inp
-│   ├── runOrca.py
-│   └── run.sh
-├── data
-│   ├── AllMolecules
-│   ├── energies.txt
-│   ├── example_visualization
-│   ├── example_xyz_file_from_gan.xyz
-│   ├── exp
-│   ├── flattenedXyz.txt
-│   ├── lower_coulomb_mtx_array.txt
-│   ├── MD
-│   ├── MoleculesMappedFromSampleSpace
-│   ├── newMappedMolecules
-│   ├── Traj1
-│   ├── Traj2
-│   └── traj.xyz
-├── README.md
-├── requirements.txt
+. <br>
+├── formatData.py <br>
+├── gan.py <br>
+├── generatexyz.py <br>
+├── reformatToXyz.py<br>
+├── coulombToTraj.py<br>
+├── train.py<br>
+└── utils.py<br>
+├── benchmark.ipynb<br>
+├── energy_benchmarking.ipynb<br>
+├── genAdvTrain.ipynb<br>
+├── generateSamples.ipynb<br>
+├── optimzation.ipynb<br>
+├── regression.ipynb<br>
+├── runs<br>
+│   ├── ModelForCoulombToXyz<br>
+│   └── train<br>
+├── config_files_orca<br>
+│   ├── calculated_energies.txt<br>
+│   ├── extract_excited_energy.sh<br>
+│   ├── gan_lower_coulomb_mtx_array.txt<br>
+│   ├── molecule.log<br>
+│   ├── molecule.xyz.inp<br>
+│   ├── runOrca.py<br>
+│   └── run.sh<br>
+├── data<br>
+│   ├── AllMolecules<br>
+│   ├── energies.txt<br>
+│   ├── example_visualization<br>
+│   ├── example_xyz_file_from_gan.xyz<br>
+│   ├── exp<br>
+│   ├── flattenedXyz.txt<br>
+│   ├── lower_coulomb_mtx_array.txt<br>
+│   ├── MD<br>
+│   ├── MoleculesMappedFromSampleSpace<br>
+│   ├── newMappedMolecules<br>
+│   ├── Traj1<br>
+│   ├── Traj2<br>
+│   └── traj.xyz<br>
+├── README.md<br>
+├── requirements.txt<br>
 
 List of class used in the repository:
 
