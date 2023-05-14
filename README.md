@@ -89,3 +89,55 @@ pip install -r requirements.txt
 &emsp; &emsp; &emsp; &emsp; Function that trains the generator and the discriminator<br>
 &emsp; &emsp; **train_step**:<br>
 &emsp; &emsp; &emsp; &emsp; Function that trains the GAN for each batch of data<br>
+
+
+### GenerateCsv:
+&emsp; This class is used to seperate the molecules into individual XYZ files and generate Coulomb matrix for each molecules.<br>
+<br>
+&emsp; **Methods**:<br>
+<br>
+&emsp; &emsp; **\_\_init\_\_**:<br>
+&emsp; &emsp; &emsp; &emsp; Class constructor<br>
+&emsp; &emsp; **GenerateXYZFiles**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that seperates the molecules into individual XYZ files<br>
+&emsp; &emsp; **CreateCoulombMtx**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that generates Coulomb matrix for each molecules<br>
+&emsp; &emsp; **loadData**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that loads the Coulomb matrix vectors and respective energies into numpy arrays<br>
+
+
+### Generatexyz:
+&emsp; This class is used to generate large sample of molecules for KD Tree search algorithm<br>
+<br>
+&emsp; **Methods**:<br>
+<br>
+&emsp; &emsp; **\_\_init\_\_**:<br>
+&emsp; &emsp; &emsp; &emsp; Class constructor<br>
+&emsp; &emsp; **generate_samples**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that generates specified number of 3D molecular coordinates<br>
+&emsp; &emsp; **generate_samples_batch**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that generates one batch size of 3D molecular coordinates<br>
+&emsp; &emsp; **generate_coulomb_matrix**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that generates the Coulomb matrx for all molecules<br>
+&emsp; &emsp; **format_xyz_samples**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that reformats the newly generated molecules to the XYZ file format<br>
+&emsp; &emsp; **generate_gaussian_noise**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that generates Gaussian noise<br>
+&emsp; &emsp; **sorting_by_coulomb_matrix**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that sorts all the molecules by the squared distance of each Coulomb matrix vector from origin in ascending order<br>
+
+
+### MapCoulomb1dToXYZ:
+&emsp; This class is used to construct a KD tree and map each Coulomb matrix to 3D molecular coordinates<br>
+<br>
+&emsp; **Methods**:<br>
+<br>
+&emsp; &emsp; **\_\_init\_\_**:<br>
+&emsp; &emsp; &emsp; &emsp; Class constructor. This method also constructs the KD tree.<br>
+&emsp; &emsp; **generateXYZ**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that takes the array of Coulomb matrces, finds the 3D molecular coordinates for each molecule and reformats them to XYZ file format<br>
+&emsp; &emsp; **getxyz**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that returns the 3D molecular coordinates given an index<br>
+&emsp; &emsp; **findSpecificXyzIndex**:<br>
+&emsp; &emsp; &emsp; &emsp; Function that querys the index of the nearest 3D molecular coordinates for a Coulomb matrix<br>
+
