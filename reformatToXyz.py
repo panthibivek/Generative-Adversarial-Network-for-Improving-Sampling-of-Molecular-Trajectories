@@ -44,20 +44,20 @@ class MapCoulomb1dToXYZ:
         list_return = []
         for idx in range(len(coulomb1D_arr)):
             # generated_xyz = self.getxyz(self.findSpecificXyzIndex(coulomb1D_arr[idx]))
-            list_return += list(self.findSpecificXyzIndex(coulomb1D_arr[idx]))
-            # list_return.append(self.findSpecificXyzIndex(coulomb1D_arr[idx]))
-
+            # list_return += list(self.findSpecificXyzIndex(coulomb1D_arr[idx]))
+            list_return.append(self.findSpecificXyzIndex(coulomb1D_arr[idx]))
+        list_abc = []
         for i in range(len(list_return)):
             filename = self.xyz_filename + '/molecule{:06d}.xyz'.format(i)
-            format_xyz_samples(self.all_traj_xyz[list_return[i]], filename)
-        return list_return
+            # format_xyz_samples(self.all_traj_xyz[list_return[i]], filename)
+            list_abc.append(self.all_traj_xyz[list_return[i]])
+        return list_abc
     
     def getxyz(self, index : int):
         return self.all_traj_xyz[index]
 
     def findSpecificXyzIndex(self, each_coulomb1D_arr : np.array):
-        dist, index = self.tree.query(each_coulomb1D_arr, k=100)
-        # print(dist, index)      
+        dist, index = self.tree.query(each_coulomb1D_arr, k=1)
         return index
         
         
