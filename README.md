@@ -71,20 +71,20 @@ pip install -r requirements.txt
 ## List of class used in the repository:
 
 ### GenAdvNetwork:
-&nbsp; This class is used to compile and train the GAN model.
-
-&nbsp; Methods:
-&nbsp; &nbsp; __init__:
-&nbsp; &nbsp; &nbsp; Class constructor
-&nbsp; &nbsp; generate_generator:
-&nbsp; &nbsp; &nbsp; Function that defines the architecture of the generator
-&nbsp; &nbsp; generate_discriminator:
-&nbsp; &nbsp; &nbsp; Function that defines the architecture of the discriminator
-&nbsp; &nbsp; compile:
-&nbsp; &nbsp; &nbsp; Function that initializes the loss functions used for the generator and the discriminator
-&nbsp; &nbsp; generate_trajectories:
-&nbsp; &nbsp; &nbsp; Function that uses the generator to generate new trajectories
-&nbsp; &nbsp; train_disc_gen:        
-&nbsp; &nbsp; &nbsp; Function that trains the generator and the discriminator
-&nbsp; &nbsp; train_step:
-&nbsp; &nbsp; &nbsp; Function that trains the GAN for each batch of data
+&nbsp; This class is used to compile and train the GAN model.<br>
+<br>
+&nbsp; Methods:<br>
+&nbsp; &nbsp; __init__:<br>
+&nbsp; &nbsp; &nbsp; Class constructor<br>
+&nbsp; &nbsp; generate_generator:<br>
+&nbsp; &nbsp; &nbsp; Function that defines the architecture of the generator<br>
+&nbsp; &nbsp; generate_discriminator:<br>
+&nbsp; &nbsp; &nbsp; Function that defines the architecture of the discriminator<br>
+&nbsp; &nbsp; compile:<br>
+&nbsp; &nbsp; &nbsp; Function that initializes the loss functions used for the generator and the discriminator<br>
+&nbsp; &nbsp; generate_trajectories:<br>
+&nbsp; &nbsp; &nbsp; Function that uses the generator to generate new trajectories<br>
+&nbsp; &nbsp; train_disc_gen:<br>
+&nbsp; &nbsp; &nbsp; Function that trains the generator and the discriminator<br>
+&nbsp; &nbsp; train_step:<br>
+&nbsp; &nbsp; &nbsp; Function that trains the GAN for each batch of data<br>
