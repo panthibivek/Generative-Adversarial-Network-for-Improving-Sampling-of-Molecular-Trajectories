@@ -22,27 +22,32 @@ sudo apt-get install python3-venv
 mkdir GAN_pkg
 ```
 
-### 5. Create a new virtual environment
+### 5. CD into the directory
+```shell
+cd GAN_pkg/
+```
+
+### 6. Create a new virtual environment
 ```shell
 python3 -m venv myenv
 ```
 
-### 6. Activate the virtual environment 
+### 7. Activate the virtual environment 
 ```shell
 source myenv/bin/activate
 ```
 
-### 7. Clone the repository
+### 8. Clone the repository
 ```shell
 git clone https://github.com/panthibivek/Generative-Adversarial-Network-for-Improving-Sampling-of-Molecular-Trajectories.git
 ```
 
-### 8. CD into the repository
+### 9. CD into the repository
 ```shell
 cd Generative-Adversarial-Network-for-Improving-Sampling-of-Molecular-Trajectories/
 ```
 
-### 9. Install all the requirements
+### 10. Install all the requirements
 ```shell
 pip install -r requirements.txt
 ```
