@@ -1,5 +1,7 @@
 # Generative Adversarial Networks for improved sampling of molecular trajectories in molecular machine learning
 
+Note: The code requires a Linux based operating system. <br>
+
 ## Setup
 
 ### 1. Install python 3.10
@@ -52,6 +54,10 @@ cd Generative-Adversarial-Network-for-Improving-Sampling-of-Molecular-Trajectori
 pip install -r requirements.txt
 ```
 
+### 11. Check if all the packages are installed 
+```shell
+pip freeze
+```
 
 ## The repository tree structure
 . <br>
