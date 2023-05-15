@@ -142,7 +142,7 @@ pip install -r requirements.txt
 &emsp; &emsp; &emsp; &emsp; Function that querys the index of the nearest 3D molecular coordinates for a Coulomb matrix<br>
 
 
-
+<br><br>
 ## The use of each classes are shown in the following Jupyter Nootbooks:
 
 **genAdvTrain.ipynb**:<br>
@@ -168,10 +168,10 @@ pip install -r requirements.txt
 Note: Please place all the data files in data directory
 
 **Energy File**: /data/energies.txt <br>
-**XYZ File**: /data/traj.xyz <br> <br>
+**XYZ File**: /data/traj.xyz <br>
 
 **Energy File**: /data/MD/traj1_energies.txt <br>
-**XYZ File**: /data/MD/trajectory1.xyz <br> <br>
+**XYZ File**: /data/MD/trajectory1.xyz <br>
 
 **Energy File**: /data/MD/traj2_energies.txt <br>
 **XYZ File**: /data/MD/trajectory2.xyz <br>
