@@ -141,6 +141,8 @@ pip install -r requirements.txt
 &emsp; &emsp; **findSpecificXyzIndex**:<br>
 &emsp; &emsp; &emsp; &emsp; Function that querys the index of the nearest 3D molecular coordinates for a Coulomb matrix<br>
 
+
+
 ## The use of each classes are shown in the following Jupyter Nootbooks:
 
 **genAdvTrain.ipynb**:<br>
@@ -160,3 +162,16 @@ pip install -r requirements.txt
 
 **benchmark.ipynb**:<br>
 &emsp; &emsp; Benchmarking the performance of KRR model with resampled training set<br>
+
+
+## Data Requirement for running the Jupyter Nootbooks:
+Note: Please place all the data files in data directory
+
+**Energy File**: /data/energies.txt <br>
+**XYZ File**: /data/traj.xyz <br> <br>
+
+**Energy File**: /data/MD/traj1_energies.txt <br>
+**XYZ File**: /data/MD/trajectory1.xyz <br> <br>
+
+**Energy File**: /data/MD/traj2_energies.txt <br>
+**XYZ File**: /data/MD/trajectory2.xyz <br>
