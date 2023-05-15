@@ -9,7 +9,16 @@ import os
 import json
 
 class Generatexyz:
+    """ This class is used to generate large sample of molecules for KD Tree search algorithm
+    """
     def __init__(self, total_samples_to_generate : int, batch_size : int, number_of_atoms : int):
+        """ Class constructor
+
+        Parameters : 
+        total_samples_to_generate       : total number of samples to generate for sample space 
+        batch_size                      : size of batch after which the samples are stored in a file
+        number_of_atoms                 : total number of atoms in the molecule. for example for Benzene the value must be 12
+        """
         self.total_samples_to_generate = total_samples_to_generate
         self.batch_size = batch_size
         self.number_of_atoms = number_of_atoms
@@ -32,6 +41,11 @@ class Generatexyz:
                 outfile.write(json_obj)
     
     def generate_samples(self, benzene_traj : np.array):
+        """ Function that generates specified number of 3D molecular coordinates
+
+        Parameters : 
+        benzene_traj       : 3D coordinates of a real molecule used to create the sample space
+        """
         with open(self.cache_memory, 'r') as openfile:
             json_obj = json.load(openfile)
         if int(json_obj["currentBatch"]) < int(json_obj["totalBatch"]):
@@ -43,6 +57,11 @@ class Generatexyz:
                     json.dump(json_obj, openfile)         
 
     def generate_samples_batch(self, benzene_traj : np.array):
+        """ Function that generates one batch size of 3D molecular coordinates
+
+        Parameters : 
+        benzene_traj       : 3D coordinates of a real molecule used to create the sample space
+        """
         size_ = len(benzene_traj)
         temp_generated_samples = []
         temp_generated_coulomb1D = []
@@ -63,11 +82,18 @@ class Generatexyz:
         coulomb1Dfile.close()
 
     def generate_coulomb_matrix(self):
+        """  Function that generates the Coulomb matrx for all molecules
+        """
         mol = qml.Compound(xyz=self.temp_xyz)
         mol.generate_coulomb_matrix(size=self.number_of_atoms, sorting="unsorted")
         return mol.representation      
 
     def format_xyz_samples(self, generated_sample : np.array):
+        """ Function that reformats the newly generated molecules to the XYZ file format
+
+        Parameters : 
+        generated_sample     : flattened 3D coordinates of the molecule
+        """
         trajfile = open(self.temp_xyz, "w")
         trajfile.write(str(self.number_of_atoms)+"\n")
         trajfile.write("Randomly generated samples\n")
@@ -83,9 +109,17 @@ class Generatexyz:
         trajfile.close()
 
     def generate_gaussian_noise(self, size_n):
+        """ Function that generates Gaussian noise
+
+        Parameters : 
+        size_n              : size of gaussian noise to generate
+        """
         return np.random.normal(0, 0.005, size_n)
 
     def sorting_by_coulomb_matrix(self):
+        """ Function that sorts all the molecules by the squared distance of each 
+            Coulomb matrix vector from origin in ascending order
+        """
         all_coulomb1D = np.loadtxt(self.coulomb1D_dirname, delimiter=',')
         all_traj_xyz = np.loadtxt(self.traj_dirname, delimiter=',')
         idx = list(range(len(all_coulomb1D)))
@@ -104,4 +138,9 @@ class Generatexyz:
                 f.write(','.join(str(x) for x in row) + '\n')
 
 def sqDistFromOrigin(arr):
+    """ Function to find the sq. distance of an array from origin
+
+    Parameters : 
+    arr                      : numpy array whose distance to calculate
+    """
     return sum(x**2 for x in arr)

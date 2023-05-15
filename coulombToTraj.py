@@ -13,6 +13,8 @@ input_dim = 78
 output_dim = 12 * 3
 
 def getModel():
+    """ Function to generate model architecture for a Multi-layer Perceptron 
+    """
     model = Sequential()
     model.add(Dense(units=1024, activation='linear', input_dim=input_dim))
     model.add(BatchNormalization())
@@ -32,6 +34,12 @@ def getModel():
     return model
 
 def inputFormat(raw_input : np.array):
+    """ Function that removes diagonal entries from the Coulomb matrix and 
+        adds atomic number of atoms in the molecule
+
+    Parameters : 
+    raw_input                : 1D Coulomb matrix representation 
+    """
     molRep2D_without_diagonal = []
     diagonal_index = [1,3,6,10,15,21,28,36,45,55,66,78]
     index = np.array([i-1 for i in range(1,78) if i not in diagonal_index])
@@ -46,16 +54,12 @@ def inputFormat(raw_input : np.array):
     molRep2D_with_atomic_charge = np.concatenate((atomic_charge, molRep2D_without_diagonal), axis=1)
     return molRep2D_with_atomic_charge
 
-def extractDataFromXyz(filename : str):
-    with open(filename) as f:
-        lines = f.readlines()
-    data_vector = []
-    for line in lines[2:]:
-        fields = line.split()
-        data_vector.extend([float(field) for field in fields[1:]])
-    return data_vector
-
 def getFlattenedXyz(dir_name : str):
+    """ Function that flattens the coordinates of all the molecules from a directory
+
+    Parameters : 
+    dir_name                : path to the directory that stores the XYZ files for each molecules
+    """
     current_dir = os.path.abspath(os.path.dirname(__file__))
     flattened_xyz_filename = current_dir + '/data/flattenedXyz.txt'
     if os.path.isfile(flattened_xyz_filename):
@@ -67,6 +71,20 @@ def getFlattenedXyz(dir_name : str):
             list_flattened_xyz.append(extractDataFromXyz(xyz_file))
         np.savetxt(flattened_xyz_filename, list_flattened_xyz, delimiter=',')
         return np.array(list_flattened_xyz)
+    
+def extractDataFromXyz(filename : str):
+    """ Function that flattens the coordinates of each molecule from a XYZ file to 1D vector
+
+    Parameters : 
+    filename                : path to the XYZ file 
+    """
+    with open(filename) as f:
+        lines = f.readlines()
+    data_vector = []
+    for line in lines[2:]:
+        fields = line.split()
+        data_vector.extend([float(field) for field in fields[1:]])
+    return data_vector
 
 if __name__=="__main__":
     xyz_files_dir_name = "/home/panthibivek/thesis/GAN_pkg/data/AllMolecules/"

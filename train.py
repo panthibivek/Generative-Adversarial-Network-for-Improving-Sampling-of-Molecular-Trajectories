@@ -1,5 +1,6 @@
 
 """ @author : Bivek Panthi
+    Python file to train the GAN model
 """
 import tensorflow as tf
 import numpy as np

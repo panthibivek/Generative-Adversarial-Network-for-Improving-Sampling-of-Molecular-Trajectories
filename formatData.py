@@ -10,6 +10,16 @@ from utils import *
 
 class GenerateCsv:
     def __init__(self, max_size : int, filename : str, xyzdirname : str, coulombMtxFilename : str):
+        """ Class constructor
+
+        Parameters : 
+        max_size                : total number of atoms in the molecules
+        filename                : absolute path to the XYZ file
+        xyzdirname              : directory where all the individual XYZ files for each molecules are stored
+                                  Only path from GAN package
+        coulombMtxFilename      : filename to save generated 1D representation of coulomb matrix
+                                  Only path from GAN package
+        """
         try:
             int(max_size)
         except ValueError:
@@ -31,6 +41,11 @@ class GenerateCsv:
             self.CreateCoulombMtx()
 
     def GenerateXYZFiles(self, file_name : str): 
+        """ Function that seperates the molecules into individual XYZ files
+
+        Parameters : 
+        filename                : absolute path to the XYZ file
+        """
         total_molecules = buf_count_newlines(file_name) // 14
         new_dir = pathlib.Path(self.XYZdirname)
         new_dir.mkdir(parents=True, exist_ok=True)
@@ -40,6 +55,8 @@ class GenerateCsv:
         os.chdir(self.current_dir) #back to original location
 
     def CreateCoulombMtx(self):
+        """ Function that generates Coulomb matrix for each molecules
+        """
         lower_coulomb_mtx_array = []
         os.chdir(self.XYZdirname)
         for path in sorted(os.listdir(self.XYZdirname)):

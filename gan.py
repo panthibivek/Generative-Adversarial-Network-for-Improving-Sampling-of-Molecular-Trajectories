@@ -7,7 +7,15 @@ from utils import random_generator, random_shuffle
 import os
 
 class GenAdvNetwork(tf.keras.Model):
+    """ This class is used to compile and train the GAN model.
+    """
     def __init__(self, latent_dim, batch_size) -> None:
+        """ Class constructor
+
+        Parameters : 
+        latent_dim              : size of latent dimension
+        batch_size              : size of batch used for training step
+        """
         # initialize keras Model class
         super().__init__()
         self.count = 0
@@ -18,6 +26,8 @@ class GenAdvNetwork(tf.keras.Model):
         self.discriminator_loss = tf.keras.metrics.Mean(name="discriminator_loss")
     
     def generate_generator(self) -> tf.keras.Sequential:
+        """ Function that defines the architecture of the generator
+        """
         filters = [13, 128, 264]
         model = tf.keras.Sequential(name="generator")
         model.add(tf.keras.layers.Dense(filters[0], input_dim=self.latent_dim))
@@ -38,6 +48,8 @@ class GenAdvNetwork(tf.keras.Model):
         return model
 
     def generate_discriminator(self) -> tf.keras.Model:
+        """ Function that defines the architecture of the discriminator
+        """
         filters = [64, 264, 128]
         model = tf.keras.Sequential(name="discriminator")
         model.add(tf.keras.layers.Conv1D(filters[0], kernel_size=4, strides=3, input_shape=(78, 1), padding="same"))
@@ -54,6 +66,14 @@ class GenAdvNetwork(tf.keras.Model):
         return model
     
     def compile(self, generator_opt, discriminator_opt, disc_loss, gen_loss) -> None:
+        """ Function that initializes the loss functions used for the generator and the discriminator
+
+        Parameters : 
+        generator_opt              : optimizer used for generator
+        discriminator_opt          : optimizer used for discriminator
+        disc_loss                  : loss function used for discriminator
+        gen_loss                   : loss function used for generator
+        """
         super().compile(run_eagerly=True)
         self.g_optimizer = generator_opt
         self.d_optimizer = discriminator_opt
@@ -61,9 +81,19 @@ class GenAdvNetwork(tf.keras.Model):
         self.gen_loss = gen_loss
 
     def generate_trajectories(self, size_of_data):
+        """ Function that uses the generator to generate new trajectories
+
+        Parameters : 
+        size_of_data               : number of samples to generate
+        """
         return self.generator(random_generator((size_of_data, self.latent_dim)))          
     
     def train_disc_gen(self, trajectories, Y_, tag):
+        """ Function that trains the generator and the discriminator
+
+        Parameters : 
+        trajectories               : real molecular trajectories or molecular trajectories generated from generator
+        """
         with tf.GradientTape() as tape:
             if tag == "discriminator":
                 predictions = self.discriminator(trajectories)
@@ -89,6 +119,11 @@ class GenAdvNetwork(tf.keras.Model):
         return loss            
 
     def train_step(self, data):
+        """ Function that trains the GAN for each batch of data
+
+        Parameters : 
+        data                    : real molecular trajectories for each batch
+        """
         input_X, energies = data
 
         # energies = tf.cast(energies, dtype=tf.float64)
@@ -122,6 +157,11 @@ class GenAdvNetwork(tf.keras.Model):
         }
     
 def load_weight(weight_path : str):
+    """ Function to load the weight of GAN 
+
+    Parameters : 
+    weight_path                 : path to the weight of the GAN
+    """
     if os.path.isfile(weight_path):
         pass
     else:
